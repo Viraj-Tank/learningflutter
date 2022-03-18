@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:learningflutter/ui/NotesPage.dart';
+import 'package:learningflutter/ui/SplashPage.dart';
 
 /*void main() {
   runApp(
@@ -37,6 +38,6 @@ class MyApp extends StatelessWidget {
         elevation: 0,
       ),
     ),
-    home: const NotesPage(),
+    home: const SplashPage(),
   );
 }
