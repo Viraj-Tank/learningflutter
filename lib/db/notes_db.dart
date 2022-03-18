@@ -10,11 +10,11 @@ class NotesDatabase {
 
   NotesDatabase._init();
 
-  Future<Database> get database async {
-    if (database != null) return _database!;
+  Future<Database?> get database async {
+    if (_database != null) return _database;
 
     _database = await _initDB('notes.db');
-    return _database!;
+    return _database;
   }
 
   Future<Database> _initDB(String filePath) async {
@@ -43,11 +43,54 @@ class NotesDatabase {
 
   Future<MyNote> create(MyNote note) async {
     final db = await instance.database;
-    final id = await db.insert(tableNotes, note.toJson());
+
+    // final json = note.toJson();
+    // const columns = '${NoteTable.title}, ${NoteTable.description}, ${NoteTable.time}';
+    // final values = '${json[NoteTable.title]}, ${json[NoteTable.description]}, ${json[NoteTable.time]}';
+    // final id = await db.rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
+
+    final id = await db?.insert(tableNotes, note.toJson());
+    return note.copy(id: id);
+  }
+
+  Future<MyNote> readNote(int id) async {
+    final db = await instance.database;
+
+    final maps = await db?.query(
+      tableNotes,
+      columns: NoteTable.values,
+      where: '${NoteTable.id} = ?',
+      whereArgs: [id],
+    );
+    if (maps!.isNotEmpty) {
+      return MyNote.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  Future<List<MyNote>> readAllNotes() async {
+    final db = await instance.database;
+    const orderBy = '${NoteTable.time} ASC';
+    // final result = await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
+    final result = await db?.query(tableNotes, orderBy: orderBy);
+    return result!.map((json) => MyNote.fromJson(json)).toList();
+  }
+
+  Future<int> update(MyNote note) async {
+    final db = await instance.database;
+
+    return db!.update(tableNotes, note.toJson(), where: '${NoteTable.id} = ?', whereArgs: [note.id]);
+  }
+
+  Future<int> delete(int id) async {
+    final db = await instance.database;
+
+    return await db!.delete(tableNotes, where: '${NoteTable.id} = ?', whereArgs: [id]);
   }
 
   Future close() async {
     final db = await instance.database;
-    db.close();
+    db?.close();
   }
 }

@@ -1,31 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:learningflutter/ui/NotesPage.dart';
 
-void main() {
+/*void main() {
   runApp(
     const MaterialApp(
       home: MyHomePage(),
       debugShowCheckedModeBanner: true,
     ),
   );
+}*/
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(MyApp());
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  static final String title = 'My Notes';
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.grey,
-        ),
+  Widget build(BuildContext context) => MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: title,
+    themeMode: ThemeMode.dark,
+    theme: ThemeData(
+      primaryColor: Colors.black,
+      scaffoldBackgroundColor: Colors.blueGrey.shade900,
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-    );
-  }
+    ),
+    home: const NotesPage(),
+  );
 }
