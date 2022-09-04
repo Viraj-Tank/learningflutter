@@ -43,4 +43,4 @@ This policy is effective as of 2022-03-18
 
 Contact Us
 
-If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at virajtankconsole@gmail.com.
+If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at virajtank98@gmail.com.
