@@ -64,7 +64,7 @@ class _NotesPageState extends State<NotesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Notes',
+          '2 Do',
           style: TextStyle(fontSize: 24),
         ),
         /*actions: const [
